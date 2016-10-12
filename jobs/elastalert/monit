@@ -1,0 +1,5 @@
+check process elastalert
+  with pidfile /var/vcap/sys/run/elastalert/elastalert.pid
+  start program "/var/vcap/jobs/elastalert/bin/monit_debugger elastalert_ctl '/var/vcap/jobs/elastalert/bin/ctl start'"
+  stop program "/var/vcap/jobs/elastalert/bin/monit_debugger elastalert_ctl '/var/vcap/jobs/elastalert/bin/ctl stop'"
+  group vcap

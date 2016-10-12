@@ -1,0 +1,39 @@
+#!/bin/bash
+
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+# Setup env vars and folders for the webapp_ctl script
+source /var/vcap/jobs/elastalert/helpers/ctl_setup.sh 'elastalert'
+
+export PORT=${PORT:-5000}
+export LANG=en_US.UTF-8
+
+case $1 in
+
+  start)
+    pid_guard $PIDFILE $JOB_NAME
+
+
+    # store pid in $PIDFILE
+    echo $$ > $PIDFILE
+
+    while true; do
+        sleep 0.1
+    done
+
+    ;;
+
+  stop)
+
+    kill_and_wait $PIDFILE
+
+    ;;
+  *)
+    echo "Usage: ip_filter_ctl {start|stop}"
+
+    ;;
+
+esac
+exit 0
+
