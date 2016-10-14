@@ -1,10 +1,27 @@
 ---
 name: elastalert
+
 packages:
+- python
 - elastalert
+
 templates:
   bin/ctl: bin/ctl
   bin/monit_debugger: bin/monit_debugger
   data/properties.sh.erb: data/properties.sh
+  data/rules/frequency.yaml.erb: data/rules/frequency.yaml
+  config/config.yaml.erb: config/config.yaml
   helpers/ctl_setup.sh: helpers/ctl_setup.sh
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
+
+properties:
+  elasticsearch.host:
+    description: "Elasticsearch hostname or IP address"
+  elasticsearch.port:
+    description: "Elasticsearch port number"
+  run_every.minutes:
+    description: "How often ElastAlert will query Elasticsearch"
+  buffer_time.minutes:
+    description: "The size of the query window, stretching backwards from the time each query is run"
+  alert_time_limit.days:
+    description: "The retry window for failed alerts"

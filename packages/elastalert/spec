@@ -1,5 +1,7 @@
 ---
 name: elastalert
-dependencies: []
+dependencies:
+- python
 files:
 - elastalert/v0.1.1.tar.gz
+- elastalert/get-pip.py

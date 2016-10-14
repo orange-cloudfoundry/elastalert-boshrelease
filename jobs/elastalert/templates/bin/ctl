@@ -14,26 +14,22 @@ case $1 in
   start)
     pid_guard $PIDFILE $JOB_NAME
 
-
     # store pid in $PIDFILE
     echo $$ > $PIDFILE
 
-    while true; do
-        sleep 0.1
-    done
+    exec chpst -u vcap:vcap /var/vcap/packages/elastalert/bin/elastalert --config /var/vcap/job/elastalert/config/config.yaml \
+         >>$LOG_DIR/$JOB_NAME.log 2>&1
 
     ;;
 
   stop)
-
     kill_and_wait $PIDFILE
 
     ;;
   *)
-    echo "Usage: ip_filter_ctl {start|stop}"
+    echo "Usage: elastalert_ctl {start|stop}"
 
     ;;
 
 esac
 exit 0
-

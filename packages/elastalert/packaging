@@ -8,14 +8,20 @@ CPUS=$(grep -c ^processor /proc/cpuinfo)
 # $BOSH_COMPILE_TARGET - where this package & spec'd source files are available
 # $BOSH_INSTALL_TARGET - where you copy/install files to be included in package
 export HOME=/var/vcap
-
+export PYTHONHOME=$HOME/packages/python
+export PYTHONPATH=$PYTHONHOME/lib/python2.7/dist-packages
 apt-get update
 apt-get install -y python-dev build-essential
-wget https://bootstrap.pypa.io/get-pip.py
-python get-pip.py
+#mkdir $BOSH_INSTALL_TARGET/lib
+#cp -R /usr/local/lib/python2.7 $BOSH_INSTALL_TARGET/lib/
+#wget https://bootstrap.pypa.io/get-pip.py
+$PYTHONHOME/bin/python -V
+$PYTHONHOME/bin/python elastalert/get-pip.py -v -t $PYTHONPATH
 pip install 'requests[security]'
-pip install --upgrade six
-pip install aws-requests-auth
+#pip install --upgrade six
+pip install requests==2.5.1
+pip install six==1.9.0
+pip install aws-requests-auth==0.2.5
 pip install PyStaticConfiguration==0.9.0
 pip install PyYAML==3.11
 pip install argparse==1.3.0
@@ -30,7 +36,6 @@ pip install jsonschema==2.2.0
 pip install mock==1.0.0
 pip install oauthlib==0.7.2
 pip install python-dateutil==2.4.0
-pip install requests==2.5.1
 pip install requests-oauthlib==0.4.2
 pip install simplejson==3.3.0
 pip install supervisor==3.1.2
@@ -39,14 +44,13 @@ pip install unittest2==0.8.0
 pip install urllib3==1.8.2
 pip install wsgiref==0.1.2
 
-
 wget https://bootstrap.pypa.io/ez_setup.py -O - | python
 
 tar xfv elastalert/v0.1.1.tar.gz
 #cp -a elastalert-0.1.1/* $BOSH_INSTALL_TARGET
 #cd $BOSH_INSTALL_TARGET
 cd elastalert-0.1.1
-python setup.py install --install-scripts=$BOSH_INSTALL_TARGET/bin --install-platlib=/usr/local/lib/python2.7/site-packages
+python setup.py install --prefix=$BOSH_INSTALL_TARGET
 pip install -r requirements.txt
 
 # Alternatively, to copy archive contents:

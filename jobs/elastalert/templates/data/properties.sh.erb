@@ -8,3 +8,10 @@ export NAME='<%= name %>'
 export JOB_INDEX=<%= index %>
 # full job name, like redis/0 or webapp/3
 export JOB_FULL="$NAME/$JOB_INDEX"
+
+export EA_BIN=/var/vcap/packages/elastalert/bin
+
+export ES_HOST='<%= p("elasticsearch.host") %>'
+export ES_PORT='<%= p("elasticsearch.port") %>'
+
+$EA_BIN/elastalert-create-index --host $ES_HOST --port $ES_PORT --index elastalert_status
