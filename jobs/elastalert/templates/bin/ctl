@@ -6,6 +6,8 @@ set -u # report the usage of uninitialized variables
 # Setup env vars and folders for the webapp_ctl script
 source /var/vcap/jobs/elastalert/helpers/ctl_setup.sh 'elastalert'
 
+export PYTHONPATH=/var/vcap/packages/elastalert/lib/python2.7/site-packages
+
 export PORT=${PORT:-5000}
 export LANG=en_US.UTF-8
 
@@ -17,7 +19,7 @@ case $1 in
     # store pid in $PIDFILE
     echo $$ > $PIDFILE
 
-    exec chpst -u vcap:vcap /var/vcap/packages/elastalert/bin/elastalert --config /var/vcap/job/elastalert/config/config.yaml \
+    exec chpst -u vcap:vcap /var/vcap/packages/elastalert/bin/elastalert --config /var/vcap/jobs/elastalert/config/config.yaml \
          >>$LOG_DIR/$JOB_NAME.log 2>&1
 
     ;;

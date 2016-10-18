@@ -26,16 +26,16 @@ type: frequency
 
 # (Required)
 # Index to search, wildcard supported
-index: logstash-*
+index: <%= p("rules.frequency.index") %>
 
 # (Required, frequency specific)
 # Alert when this many documents matching the query occur within a timeframe
-num_events: 5
+num_events: <%= p("rules.frequency.num_events") %>
 
 # (Required, frequency specific)
 # num_events must occur within this amount of time to trigger an alert
 timeframe:
-  hours: 4
+  hours: <%= p("rules.frequency.timeframe.hours") %>
 
 # (Required)
 # A list of elasticsearch filters used for find events
@@ -43,7 +43,7 @@ timeframe:
 # For more info: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl.html
 filter:
 - terms:
-    ValueMetric.value: ["10"]
+    metric.value: ["0"]
 
 # (Required)
 # The alert is use when a match is found
@@ -53,7 +53,7 @@ alert:
 smtp_host: smtp.sendgrid.net
 smtp_port: 465
 smtp_ssl: true
-smtp_auth_file: /home/ubuntu/git_repos/elastalert/test.yml
+smtp_auth_file: /var/vcap/jobs/elastalert/config/auth.yml
 from_addr: elastalert@orange.fr
 
 
@@ -61,4 +61,4 @@ from_addr: elastalert@orange.fr
 # a list of email addresses to send alerts to
 email:
 - "ermek.akhanov@orange.com"
-- "codex.clara-cloud-ops-bosh-cw-lodz@orange.com"
+#- "codex.clara-cloud-ops-bosh-cw-lodz@orange.com"

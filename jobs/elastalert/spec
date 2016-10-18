@@ -2,15 +2,15 @@
 name: elastalert
 
 packages:
-- python
 - elastalert
 
 templates:
-  bin/ctl: bin/ctl
-  bin/monit_debugger: bin/monit_debugger
   data/properties.sh.erb: data/properties.sh
+  config/auth.yml.erb: config/auth.yml
   data/rules/frequency.yaml.erb: data/rules/frequency.yaml
   config/config.yaml.erb: config/config.yaml
+  bin/ctl: bin/ctl
+  bin/monit_debugger: bin/monit_debugger
   helpers/ctl_setup.sh: helpers/ctl_setup.sh
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
 
@@ -25,3 +25,10 @@ properties:
     description: "The size of the query window, stretching backwards from the time each query is run"
   alert_time_limit.days:
     description: "The retry window for failed alerts"
+  rules.frequency.index:
+    description: ""
+  rules.frequency.num_events:
+    description: ""
+  rules.frequency.timeframe.hours:
+    description: ""
+
