@@ -43,22 +43,21 @@ timeframe:
 # For more info: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl.html
 filter:
 - terms:
-    metric.value: ["0"]
+    ValueMetric.value: ["0"]
 
 # (Required)
 # The alert is use when a match is found
 alert:
 - "email"
 
-smtp_host: smtp.sendgrid.net
-smtp_port: 465
-smtp_ssl: true
+smtp_host: <%= p("rules.smtp_host") %>
+smtp_port: <%= p("rules.smtp_port") %>
+smtp_ssl: <%= p("rules.smtp_ssl") %>
 smtp_auth_file: /var/vcap/jobs/elastalert/config/auth.yml
-from_addr: elastalert@orange.fr
+from_addr: <%= p("rules.from_addr") %>
 
 
 # (required, email specific)
 # a list of email addresses to send alerts to
-email:
-- "ermek.akhanov@orange.com"
+email: <%= p("rules.email") %>
 #- "codex.clara-cloud-ops-bosh-cw-lodz@orange.com"
