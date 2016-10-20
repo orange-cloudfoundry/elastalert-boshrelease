@@ -59,5 +59,6 @@ from_addr: <%= p("rules.from_addr") %>
 
 # (required, email specific)
 # a list of email addresses to send alerts to
-email: <%= p("rules.email") %>
+email: <% p('rules.email').each do |email| %>
+- <%= email %> <% end %>
 #- "codex.clara-cloud-ops-bosh-cw-lodz@orange.com"
