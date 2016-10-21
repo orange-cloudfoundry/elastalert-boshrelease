@@ -31,6 +31,15 @@ properties:
     description: ""
   rules.frequency.timeframe.hours:
     description: ""
+  rules.frequency.filter.terms:
+    description: ""
+  rules:
+    frequency:
+      filter:
+        range:
+          range.field:
+          range.from:
+          range.to:
   rules.smtp_host:
     description: ""
   rules.smtp_port:

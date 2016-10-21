@@ -42,8 +42,15 @@ timeframe:
 # These filters are joined with AND and nested in a filtered query
 # For more info: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl.html
 filter:
-- terms:
-    ValueMetric.value: ["0"]
+- or:
+  - terms: <% p("rules.frequency.filter.terms").each do |terms| %>
+      <%= terms %> <% end %>
+  - range: <% p("rules.frequency.filter.range", []).each do |range| %>
+      <%= range['field'] %>: 
+        from: <%= range['from'] %>
+        to: <%= range['to'] %> <% end %>
+#- terms:
+#    ValueMetric.value: ["0"]
 
 # (Required)
 # The alert is use when a match is found
