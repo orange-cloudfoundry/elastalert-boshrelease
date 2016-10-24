@@ -31,7 +31,11 @@ properties:
     description: ""
   rules.frequency.timeframe.hours:
     description: ""
+  rules.frequency.filter.operator:
+    description: ""
   rules.frequency.filter.terms:
+    description: ""
+  rules.frequency.filter.query_string:
     description: ""
   rules:
     frequency:

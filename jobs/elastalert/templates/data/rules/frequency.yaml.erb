@@ -42,13 +42,17 @@ timeframe:
 # These filters are joined with AND and nested in a filtered query
 # For more info: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl.html
 filter:
-- or:
-  - terms: <% p("rules.frequency.filter.terms").each do |terms| %>
-      <%= terms %> <% end %>
+- <%= p("rules.frequency.filter.operator") %>: <% if_p("rules.frequency.filter.terms") do |terms| %> <% p("rules.frequency.filter.terms").each do |term| %>
+  - term:
+      <%= term %> <% end %> <% end %> <% if_p("rules.frequency.filter.range") do |ranges| %>
   - range: <% p("rules.frequency.filter.range", []).each do |range| %>
       <%= range['field'] %>: 
         from: <%= range['from'] %>
-        to: <%= range['to'] %> <% end %>
+        to: <%= range['to'] %> <% end %> <% end %> <% if_p("rules.frequency.filter.query_string") do |queries| %> <% p("rules.frequency.filter.query_string").each do |query_string| %>
+  - query:
+      query_string:
+        query: "<%= query_string %>" <% end %> <% end %>
+
 #- terms:
 #    ValueMetric.value: ["0"]
 
