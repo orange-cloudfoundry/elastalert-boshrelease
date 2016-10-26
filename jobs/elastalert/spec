@@ -5,9 +5,17 @@ packages:
 - elastalert
 
 templates:
+  data/draft_rules/any.yaml.erb: data/draft_rules/any.yaml
+  data/draft_rules/blacklist.yaml.erb: data/draft_rules/blacklist.yaml
+  data/draft_rules/whitelist.yaml.erb: data/draft_rules/whitelist.yaml
+  data/draft_rules/change.yaml.erb: data/draft_rules/change.yaml
+  data/draft_rules/frequency.yaml.erb: data/draft_rules/frequency.yaml
+  data/draft_rules/spike.yaml.erb: data/draft_rules/spike.yaml
+  data/draft_rules/flatline.yaml.erb: data/draft_rules/flatline.yaml
+  data/draft_rules/new_term.yaml.erb: data/draft_rules/new_term.yaml
+  data/draft_rules/cardinality.yaml.erb: data/draft_rules/cardinality.yaml
   data/properties.sh.erb: data/properties.sh
   config/auth.yml.erb: config/auth.yml
-  data/rules/frequency.yaml.erb: data/rules/frequency.yaml
   config/config.yaml.erb: config/config.yaml
   bin/ctl: bin/ctl
   bin/monit_debugger: bin/monit_debugger
@@ -15,47 +23,166 @@ templates:
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
 
 properties:
-  elasticsearch.host:
+  elastalert.elasticsearch.host:
     description: "Elasticsearch hostname or IP address"
-  elasticsearch.port:
+  elastalert.elasticsearch.port:
     description: "Elasticsearch port number"
-  run_every.minutes:
+  elastalert.run_every.minutes:
     description: "How often ElastAlert will query Elasticsearch"
-  buffer_time.minutes:
+  elastalert.buffer_time.minutes:
     description: "The size of the query window, stretching backwards from the time each query is run"
-  alert_time_limit.days:
+  elastalert.alert_time_limit.days:
     description: "The retry window for failed alerts"
-  rules.frequency.index:
+  elastalert.smtp_host:
     description: ""
-  rules.frequency.num_events:
+  elastalert.smtp_port:
     description: ""
-  rules.frequency.timeframe.hours:
+  elastalert.smtp_ssl:
     description: ""
-  rules.frequency.filter.operator:
+  elastalert.smtp_user:
     description: ""
-  rules.frequency.filter.terms:
+  elastalert.smtp_password:
     description: ""
-  rules.frequency.filter.query_string:
+  elastalert.from_addr:
     description: ""
-  rules:
-    frequency:
-      filter:
-        range:
-          range.field:
-          range.from:
-          range.to:
-  rules.smtp_host:
+
+  elastalert.rules.frequency.name:
     description: ""
-  rules.smtp_port:
+  elastalert.rules.frequency.alert:
     description: ""
-  rules.smtp_ssl:
+  elastalert.rules.frequency.index:
     description: ""
-  rules.smtp_user:
+  elastalert.rules.frequency.num_events:
     description: ""
-  rules.smtp_password:
+  elastalert.rules.frequency.timeframe.hours:
     description: ""
-  rules.from_addr:
+  elastalert.rules.frequency.email:
     description: ""
-  rules.email:
+
+  elastalert.rules.frequency.filter.operator.value:
     description: ""
+  elastalert.rules.frequency.filter.operator.terms:
+    description: ""
+  elastalert.rules.frequency.filter.operator.query_string:
+    description: ""
+  elastalert.rules.frequency.filter.operator.range:
+    description: ""
+    example: |
+      range.field:
+      range.from:
+      range.to:
+
+  elastalert.rules.cardinality.name:
+    description: ""
+  elastalert.rules.cardinality.alert:
+    description: ""
+  elastalert.rules.cardinality.index:
+    description: ""
+  elastalert.rules.cardinality.timeframe.hours:
+    description: ""
+  elastalert.rules.cardinality.email:
+    description: ""
+  elastalert.rules.cardinality.cardinality_field:
+    description: ""
+  elastalert.rules.cardinality.min_cardinality:
+    description: ""
+
+  elastalert.rules.cardinality.filter.operator.value:
+    description: ""
+  elastalert.rules.cardinality.filter.operator.terms:
+    description: ""
+  elastalert.rules.cardinality.filter.operator.query_string:
+    description: ""
+  elastalert.rules.cardinality.filter.operator.range:
+    description: ""
+    example: |
+      range.field:
+      range.from:
+      range.to:
+
+  elastalert.rules.change.name:
+    description: ""
+  elastalert.rules.change.alert:
+    description: ""
+  elastalert.rules.change.index:
+    description: ""
+  elastalert.rules.change.timeframe.hours:
+    description: ""
+  elastalert.rules.change.email:
+    description: ""
+  elastalert.rules.change.compare_key:
+    description: ""
+  elastalert.rules.change.ignore_null:
+    description: ""
+  elastalert.rules.change.query_key:
+    description: ""
+
+  elastalert.rules.change.filter.operator.value:
+    description: ""
+  elastalert.rules.change.filter.operator.terms:
+    description: ""
+  elastalert.rules.change.filter.operator.query_string:
+    description: ""
+  elastalert.rules.change.filter.operator.range:
+    description: ""
+    example: |
+      range.field:
+      range.from:
+      range.to:
+
+  elastalert.rules.spike.name:
+    description: ""
+  elastalert.rules.spike.alert:
+    description: ""
+  elastalert.rules.spike.index:
+    description: ""
+  elastalert.rules.spike.timeframe.hours:
+    description: ""
+  elastalert.rules.spike.email:
+    description: ""
+  elastalert.rules.spike.threshold_cur:
+    description: ""
+  elastalert.rules.spike.spike_height:
+    description: ""
+  elastalert.rules.spike.spike_type:
+    description: ""
+
+  elastalert.rules.spike.filter.operator.value:
+    description: ""
+  elastalert.rules.spike.filter.operator.terms:
+    description: ""
+  elastalert.rules.spike.filter.operator.query_string:
+    description: ""
+  elastalert.rules.spike.filter.operator.range:
+    description: ""
+    example: |
+      range.field:
+      range.from:
+      range.to:
+
+  elastalert.rules.new_term.name:
+    description: ""
+  elastalert.rules.new_term.alert:
+    description: ""
+  elastalert.rules.new_term.index:
+    description: ""
+  elastalert.rules.new_term.terms_window_size.days:
+    description: ""
+  elastalert.rules.new_term.email:
+    description: ""
+  elastalert.rules.new_term.fields:
+    description: ""
+
+  elastalert.rules.new_term.filter.operator.value:
+    description: ""
+  elastalert.rules.new_term.filter.operator.terms:
+    description: ""
+  elastalert.rules.new_term.filter.operator.query_string:
+    description: ""
+  elastalert.rules.new_term.filter.operator.range:
+    description: ""
+    example: |
+      range.field:
+      range.from:
+      range.to:
 

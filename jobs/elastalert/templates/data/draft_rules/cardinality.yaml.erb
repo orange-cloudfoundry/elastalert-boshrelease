@@ -1,0 +1,63 @@
+<% if_p("elastalert.rules.cardinality.index") do |cardinality| %>
+# Alert when the rate of events exceeds a threshold
+
+# (Required)
+# Index to search, wildcard supported
+index: <%= p("elastalert.rules.cardinality.index") %>
+
+# (OptionaL) Connect with SSL to elasticsearch
+#use_ssl: True
+
+# (Optional) basic-auth username and password for elasticsearch
+#es_username: someusername
+#es_password: somepassword
+
+# (Required)
+# Rule name, must be unique
+name: <%= p("elastalert.rules.cardinality.name") %>
+
+# (Required)
+# Type of alert.
+# the frequency rule type alerts when num_events events occur with timeframe time
+type: cardinality
+
+# (Required, cardinality specific)
+# Count the number of unique values for this field
+cardinality_field: <%= p("elastalert.rules.cardinality.cardinality_field") %>
+
+# (Required, frequency specific)
+# Alert when there less than min_cardinality unique fields
+min_cardinality: <%= p("elastalert.rules.cardinality.min_cardinality") %>
+
+# (Required, frequency specific)
+# The cardinality is defined as the number of unique values for the most recent 4 hours
+timeframe:
+  hours: <%= p("elastalert.rules.cardinality.timeframe.hours") %>
+
+# (Required)
+# A list of elasticsearch filters used for find events
+# These filters are joined with AND and nested in a filtered query
+# For more info: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl.html
+filter:
+- <%= p("elastalert.rules.cardinality.filter.operator.value") %>: <% if_p("elastalert.rules.cardinality.filter.operator.terms") do |terms| %> <% p("elastalert.rules.cardinality.filter.operator.terms").each do |term| %>
+  - term:
+      <%= term %> <% end %> <% end %> <% if_p("elastalert.rules.cardinality.filter.operator.range") do |ranges| %> <% p("elastalert.rules.cardinality.filter.operator.range", []).each do |range| %>
+  - range:
+       <%= range['field'] %>:
+        from: <%= range['from'] %>
+        to: <%= range['to'] %> <% end %> <% end %> <% if_p("elastalert.rules.cardinality.filter.operator.query_string") do |queries| %> <% p("elastalert.rules.cardinality.filter.operator.query_string").each do |query_string| %>
+  - query:
+      query_string:
+        query: "<%= query_string %>" <% end %> <% end %>
+
+# (Required)
+# The alert is use when a match is found
+alert: <% p("elastalert.rules.cardinality.alert").each do |alert| %>
+- "<%= alert %>" <% end %>
+
+# (required, email specific)
+# a list of email addresses to send alerts to
+email: <% p('elastalert.rules.cardinality.email').each do |email| %>
+- <%= email %> <% end %>
+
+<% end %>

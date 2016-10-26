@@ -1,0 +1,69 @@
+<% if_p("elastalert.rules.spike.index") do |spike| %>
+# Alert when there is a sudden spike in the volume of events
+
+# (Required)
+# Rule name, must be unique
+name: <%= p("elastalert.rules.spike.name") %>
+
+# (Required)
+# Type of alert.
+# the spike rule type compares the number of events within two sliding windows to each other
+type: spike
+
+# (Required)
+# Index to search, wildcard supported
+index: <%= p("elastalert.rules.spike.index") %>
+
+# (Required one of _cur or _ref, spike specific)
+# The minimum number of events that will trigger an alert
+# For example, if there are only 2 events between 12:00 and 2:00, and 20 between 2:00 and 4:00
+# _cur is 2 and _ref is 20, and the alert WILL fire because 20 is greater than threshold_cur
+threshold_cur: <%= p("elastalert.rules.spike.threshold_cur") %>
+#threshold_ref: 5
+
+# (Required, spike specific)
+# The size of the window used to determine average event frequency
+# We use two sliding windows each of size timeframe
+# To measure the 'reference' rate and the current rate
+timeframe:
+  hours: <%= p("elastalert.rules.spike.timeframe.hours") %>
+
+# (Required, spike specific)
+# The spike rule matches when the current window contains spike_height times more
+# events than the reference window
+spike_height: <%= p("elastalert.rules.spike.spike_height") %>
+
+# (Required, spike specific)
+# The direction of the spike
+# 'up' matches only spikes, 'down' matches only troughs
+# 'both' matches both spikes and troughs
+spike_type: <%= p("elastalert.rules.spike.spike_type") %>
+
+# (Required)
+# A list of elasticsearch filters used for find events
+# These filters are joined with AND and nested in a filtered query
+# For more info: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl.html
+filter:
+- <%= p("elastalert.rules.spike.filter.operator.value") %>: <% if_p("elastalert.rules.spike.filter.operator.terms") do |terms| %> <% p("elastalert.rules.spike.filter.operator.terms").each do |term| %>
+  - term:
+      <%= term %> <% end %> <% end %> <% if_p("elastalert.rules.spike.filter.operator.range") do |ranges| %> <% p("elastalert.rules.spike.filter.operator.range", []).each do |range| %>
+  - range:
+       <%= range['field'] %>:
+        from: <%= range['from'] %>
+        to: <%= range['to'] %> <% end %> <% end %> <% if_p("elastalert.rules.spike.filter.operator.query_string") do |queries| %> <% p("elastalert.rules.spike.filter.operator.query_string").each do |query_string| %>
+  - query:
+      query_string:
+        query: "<%= query_string %>" <% end %> <% end %>
+
+# (Required)
+# The alert is use when a match is found
+alert: <% p("elastalert.rules.spike.alert").each do |alert| %>
+- "<%= alert %>" <% end %>
+
+# (required, email specific)
+# a list of email addresses to send alerts to
+email: <% p('elastalert.rules.spike.email').each do |email| %>
+- <%= email %> <% end %>
+
+
+<% end %>

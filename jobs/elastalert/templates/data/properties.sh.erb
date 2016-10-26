@@ -12,7 +12,46 @@ export JOB_FULL="$NAME/$JOB_INDEX"
 export EA_BIN=/var/vcap/packages/elastalert/bin
 export PYTHONPATH=/var/vcap/packages/elastalert/lib/python2.7/site-packages
 
-export ES_HOST='<%= p("elasticsearch.host") %>'
-export ES_PORT='<%= p("elasticsearch.port") %>'
+export ES_HOST='<%= p("elastalert.elasticsearch.host") %>'
+export ES_PORT='<%= p("elastalert.elasticsearch.port") %>'
+
+mkdir /var/vcap/jobs/elastalert/data/rules
+
+<% if_p("elastalert.rules.any.index") do |any| %>
+cp /var/vcap/jobs/elastalert/data/draft_rules/any.yaml /var/vcap/jobs/elastalert/data/rules/
+<% end %>
+
+<% if_p("elastalert.rules.blacklist.index") do |blacklist| %>
+cp /var/vcap/jobs/elastalert/data/draft_rules/blacklist.yaml /var/vcap/jobs/elastalert/data/rules/
+<% end %>
+
+<% if_p("elastalert.rules.whitelist.index") do |whitelist| %>
+cp /var/vcap/jobs/elastalert/data/draft_rules/whitelist.yaml /var/vcap/jobs/elastalert/data/rules/
+<% end %>
+
+<% if_p("elastalert.rules.change.index") do |change| %>
+cp /var/vcap/jobs/elastalert/data/draft_rules/change.yaml /var/vcap/jobs/elastalert/data/rules/
+<% end %>
+
+<% if_p("elastalert.rules.frequency.index") do |frequency| %>
+cp /var/vcap/jobs/elastalert/data/draft_rules/frequency.yaml /var/vcap/jobs/elastalert/data/rules/
+<% end %>
+
+<% if_p("elastalert.rules.spike.index") do |spike| %>
+cp /var/vcap/jobs/elastalert/data/draft_rules/spike.yaml /var/vcap/jobs/elastalert/data/rules/
+<% end %>
+
+<% if_p("elastalert.rules.flatline.index") do |flatline| %>
+cp /var/vcap/jobs/elastalert/data/draft_rules/flatline.yaml /var/vcap/jobs/elastalert/data/rules/
+<% end %>
+
+<% if_p("elastalert.rules.new_term.index") do |new_term| %>
+cp /var/vcap/jobs/elastalert/data/draft_rules/new_term.yaml /var/vcap/jobs/elastalert/data/rules/
+<% end %>
+
+<% if_p("elastalert.rules.cardinality.index") do |cardinality| %>
+cp /var/vcap/jobs/elastalert/data/draft_rules/cardinality.yaml /var/vcap/jobs/elastalert/data/rules/
+<% end %>
+
 
 $EA_BIN/elastalert-create-index --host $ES_HOST --port $ES_PORT --index elastalert_status --no-auth --no-ssl --url-prefix "" --old-index None

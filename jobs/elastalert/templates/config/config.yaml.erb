@@ -5,35 +5,19 @@ rules_folder: /var/vcap/jobs/elastalert/data/rules
 # How often ElastAlert will query elasticsearch
 # The unit can be anything from weeks to seconds
 run_every:
-  minutes: <%= p("run_every.minutes") %>
+  minutes: <%= p("elastalert.run_every.minutes") %>
 
 # ElastAlert will buffer results from the most recent
 # period of time, in case some log sources are not in real time
 buffer_time:
-  minutes: <%= p("buffer_time.minutes") %>
+  minutes: <%= p("elastalert.buffer_time.minutes") %>
 
 # The elasticsearch hostname for metadata writeback
 # Note that every rule can have its own elasticsearch host
-es_host: <%= p("elasticsearch.host") %>
+es_host: <%= p("elastalert.elasticsearch.host") %>
 
 # The elasticsearch port
-es_port: <%= p("elasticsearch.port") %>
-
-# Optional URL prefix for elasticsearch
-#es_url_prefix: elasticsearch
-
-# Connect with SSL to elasticsearch
-#use_ssl: True
-
-# GET request with body is the default option for Elasticsearch. 
-# If it fails for some reason, you can pass 'GET', 'POST' or 'source'.
-# See http://elasticsearch-py.readthedocs.io/en/master/connection.html?highlight=send_get_body_as#transport
-# for details
-#es_send_get_body_as: GET
-
-# Option basic-auth username and password for elasticsearch
-#es_username: someusername
-#es_password: somepassword
+es_port: <%= p("elastalert.elasticsearch.port") %>
 
 # The index on es_host which is used for metadata storage
 # This can be a unmapped index, but it is recommended that you run
@@ -43,4 +27,4 @@ writeback_index: elastalert_status
 # If an alert fails for some reason, ElastAlert will retry
 # sending the alert until this time period has elapsed
 alert_time_limit:
-  days: <%= p("alert_time_limit.days") %>
+  days: <%= p("elastalert.alert_time_limit.days") %>

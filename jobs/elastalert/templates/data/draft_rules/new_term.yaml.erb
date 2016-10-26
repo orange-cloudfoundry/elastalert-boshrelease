@@ -1,0 +1,56 @@
+<% if_p("elastalert.rules.new_term.index") do |new_term| %>
+# Alert when a login event is detected for user "admin" never before seen IP
+# In this example, "login" logs contain which user has logged in from what IP
+
+# (Required)
+# Rule name, must be unique
+name: <%= p("elastalert.rules.new_term.name") %>
+
+# (Required)
+# Type of alert.
+# the frequency rule type alerts when num_events events occur with timeframe time
+type: new_term
+
+# (Required)
+# Index to search, wildcard supported
+index: <%= p("elastalert.rules.new_term.index") %>
+
+# (Required, new_term specific)
+# Monitor the field ip_address
+fields: <% p('elastalert.rules.new_term.fields').each do |field| %>
+- "<%= field %>" <% end %>
+
+# (Optional, new_term specific)
+# This means that we will query 90 days worth of data when ElastAlert starts to find which values of ip_address already exist
+# If they existed in the last 90 days, no alerts will be triggered for them when they appear
+terms_window_size:
+  days: <%= p("elastalert.rules.new_term.terms_window_size.days") %>
+
+# (Required)
+# A list of elasticsearch filters used for find events
+# These filters are joined with AND and nested in a filtered query
+# For more info: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl.html
+# We are filtering for only "login_event" type documents with username "admin"
+filter:
+- <%= p("elastalert.rules.new_term.filter.operator.value") %>: <% if_p("elastalert.rules.new_term.filter.operator.terms") do |terms| %> <% p("elastalert.rules.new_term.filter.operator.terms").each do |term| %>
+  - term:
+      <%= term %> <% end %> <% end %> <% if_p("elastalert.rules.new_term.filter.operator.range") do |ranges| %> <% p("elastalert.rules.new_term.filter.operator.range", []).each do |range| %>
+  - range:
+       <%= range['field'] %>:
+        from: <%= range['from'] %>
+        to: <%= range['to'] %> <% end %> <% end %> <% if_p("elastalert.rules.new_term.filter.operator.query_string") do |queries| %> <% p("elastalert.rules.new_term.filter.operator.query_string").each do |query_string| %>
+  - query:
+      query_string:
+        query: "<%= query_string %>" <% end %> <% end %>
+
+# (Required)
+# The alert is use when a match is found
+alert: <% p("elastalert.rules.new_term.alert").each do |alert| %>
+- "<%= alert %>" <% end %>
+
+# (required, email specific)
+# a list of email addresses to send alerts to
+email: <% p('elastalert.rules.new_term.email').each do |email| %>
+- <%= email %> <% end %>
+
+<% end %>
