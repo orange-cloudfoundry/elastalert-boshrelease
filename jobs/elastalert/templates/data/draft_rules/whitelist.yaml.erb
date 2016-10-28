@@ -1,3 +1,62 @@
 <% if_p("elastalert.rules.whitelist.index") do |whitelist| %>
 
+# Similar to blacklist, this rule will compare a certain field to a whitelist, and match if the list does not contain the term
+
+# (Required)
+# Rule name, must be unique
+name: <%= p("elastalert.rules.whitelist.name") %>
+
+# (Required)
+# Type of alert
+type: whitelist
+
+# (Required)
+# Index to search, wildcard supported
+index: <%= p("elastalert.rules.whitelist.index") %>
+
+# (Required, whitelist specific)
+# The field to compare to the whitelist
+compare_key: <%= p("elastalert.rules.whitelist.compare_key") %>
+
+# (Required, whitelist specific)
+# Ignore documents without the compare_key field
+ignore_null: <%= p("elastalert.rules.whitelist.ignore_null") %>
+
+# (Required, whitelist specific)
+# List of whitelisted values
+whitelist: <% p("elastalert.rules.whitelist.values").each do |value| %>
+- <%= value %> <% end %>
+
+# (Required)
+# List of elasticsearch filters used to find events
+# These filters are joined with AND and nested in a filtered query
+# For more info: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl.html
+filter:
+- <%= p("elastalert.rules.whitelist.filter.operator.value") %>: <% if_p("elastalert.rules.whitelist.filter.operator.terms") do |terms| %> <% p("elastalert.rules.whitelist.filter.operator.terms").each do |term| %>
+  - term:
+      <%= term %> <% end %> <% end %> <% if_p("elastalert.rules.whitelist.filter.operator.range") do |ranges| %> <% p("elastalert.rules.whitelist.filter.operator.range", []).each do |range| %>
+  - range:
+       <%= range['field'] %>:
+        from: <%= range['from'] %>
+        to: <%= range['to'] %> <% end %> <% end %> <% if_p("elastalert.rules.whitelist.filter.operator.query_string") do |queries| %> <% p("elastalert.rules.whitelist.filter.operator.query_string").each do |query_string| %>
+  - query:
+      query_string:
+        query: "<%= query_string %>" <% end %> <% end %>
+
+# (Required)
+# The alert is used when a match is found
+alert: <% p("elastalert.rules.whitelist.alert").each do |alert| %>
+- "<%= alert %>" <% end %>
+
+smtp_host: <%= p("elastalert.smtp_host") %>
+smtp_port: <%= p("elastalert.smtp_port") %>
+smtp_ssl: <%= p("elastalert.smtp_ssl") %>
+smtp_auth_file: /var/vcap/jobs/elastalert/config/auth.yml
+from_addr: <%= p("elastalert.from_addr") %>
+
+# (Required, email specific)
+# List of email addresses to send alerts to
+email: <% p('elastalert.rules.whitelist.email').each do |email| %>
+- <%= email %> <% end %>
+
 <% end %>

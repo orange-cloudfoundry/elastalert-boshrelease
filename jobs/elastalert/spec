@@ -34,153 +34,255 @@ properties:
   elastalert.alert_time_limit.days:
     description: "The retry window for failed alerts"
   elastalert.smtp_host:
-    description: ""
+    description: "The SMTP host to use"
   elastalert.smtp_port:
-    description: ""
+    description: "The SMTP port to use"
   elastalert.smtp_ssl:
-    description: ""
+    description: "Connect the SMTP host using TLS"
   elastalert.smtp_user:
-    description: ""
+    description: "The SMTP host's user"
   elastalert.smtp_password:
-    description: ""
+    description: "The SMTP host user's password"
   elastalert.from_addr:
-    description: ""
+    description: "This sets the From header in the email"
 
-  elastalert.rules.frequency.name:
-    description: ""
-  elastalert.rules.frequency.alert:
-    description: ""
-  elastalert.rules.frequency.index:
-    description: ""
-  elastalert.rules.frequency.num_events:
-    description: ""
-  elastalert.rules.frequency.timeframe.hours:
-    description: ""
-  elastalert.rules.frequency.email:
-    description: ""
+  elastalert.rules.any.name:
+    description: "The name of the rule. This must be unique across all rules"
+  elastalert.rules.any.alert:
+    description: "The Alerter type to use"
+  elastalert.rules.any.index:
+    description: "The name of the index that will be searched. Wildcards can be used here"
+  elastalert.rules.any.email:
+    description: "List of addresses to sent the alert to"
 
-  elastalert.rules.frequency.filter.operator.value:
-    description: ""
-  elastalert.rules.frequency.filter.operator.terms:
-    description: ""
-  elastalert.rules.frequency.filter.operator.query_string:
-    description: ""
-  elastalert.rules.frequency.filter.operator.range:
-    description: ""
+  elastalert.rules.any.filter.operator.value:
+    description: "or / and operator for the filter"
+  elastalert.rules.any.filter.operator.terms:
+    description: "The term type allows for exact field matches"
+  elastalert.rules.any.filter.operator.query_string:
+    description: "The query_string type follows the Lucene query format and can be used for partial or full matches to multiple fields"
+  elastalert.rules.any.filter.operator.range:
+    description: "For ranges on fields"
+    example: |
+      range.field:
+      range.from:
+      range.to:
+
+  elastalert.rules.blacklist.name:
+    description: "The name of the rule. This must be unique across all rules"
+  elastalert.rules.blacklist.alert:
+    description: "The Alerter type to use"
+  elastalert.rules.blacklist.index:
+    description: "The name of the index that will be searched. Wildcards can be used here"
+  elastalert.rules.blacklist.email:
+    description: "List of addresses to sent the alert to"
+  elastalert.rules.blacklist.compare_key:
+    description: "The name of the field to use to compare to the blacklist. If the field is null, those events will be ignored"
+  elastalert.rules.blacklist.values:
+    description: "A list of blacklisted values. The compare_key term must be equal to one of these values for it to match"
+
+  elastalert.rules.blacklist.filter.operator.value:
+    description: "or / and operator for the filter"
+  elastalert.rules.blacklist.filter.operator.terms:
+    description: "The term type allows for exact field matches"
+  elastalert.rules.blacklist.filter.operator.query_string:
+    description: "The query_string type follows the Lucene query format and can be used for partial or full matches to multiple fields"
+  elastalert.rules.blacklist.filter.operator.range:
+    description: "For ranges on fields"
     example: |
       range.field:
       range.from:
       range.to:
 
   elastalert.rules.cardinality.name:
-    description: ""
+    description: "The name of the rule. This must be unique across all rules"
   elastalert.rules.cardinality.alert:
-    description: ""
+    description: "The Alerter type to use"
   elastalert.rules.cardinality.index:
-    description: ""
-  elastalert.rules.cardinality.timeframe.hours:
-    description: ""
+    description: "The name of the index that will be searched. Wildcards can be used here"
   elastalert.rules.cardinality.email:
-    description: ""
+    description: "List of addresses to sent the alert to"
+  elastalert.rules.cardinality.timeframe.hours:
+    description: "The time period in which the number of unique values will be counted"
   elastalert.rules.cardinality.cardinality_field:
-    description: ""
+    description: "Which field to count the cardinality for"
   elastalert.rules.cardinality.min_cardinality:
-    description: ""
+    description: "If the cardinality of the data is lower than this number, an alert will be triggered"
 
   elastalert.rules.cardinality.filter.operator.value:
-    description: ""
+    description: "or / and operator for the filter"
   elastalert.rules.cardinality.filter.operator.terms:
-    description: ""
+    description: "The term type allows for exact field matches"
   elastalert.rules.cardinality.filter.operator.query_string:
-    description: ""
+    description: "The query_string type follows the Lucene query format and can be used for partial or full matches to multiple fields"
   elastalert.rules.cardinality.filter.operator.range:
-    description: ""
+    description: "For ranges on fields"
     example: |
       range.field:
       range.from:
       range.to:
 
   elastalert.rules.change.name:
-    description: ""
+    description: "The name of the rule. This must be unique across all rules"
   elastalert.rules.change.alert:
-    description: ""
+    description: "The Alerter type to use"
   elastalert.rules.change.index:
-    description: ""
-  elastalert.rules.change.timeframe.hours:
-    description: ""
+    description: "The name of the index that will be searched. Wildcards can be used here"
   elastalert.rules.change.email:
-    description: ""
+    description: "List of addresses to sent the alert to"
+  elastalert.rules.change.timeframe.hours:
+    description: "The maximum time between changes. After this time period, ElastAlert will forget the old value of the compare_key field"
   elastalert.rules.change.compare_key:
-    description: ""
+    description: "The name of the field to monitor for changes"
   elastalert.rules.change.ignore_null:
-    description: ""
+    description: "If true, events without a compare_key field will not count as changed"
   elastalert.rules.change.query_key:
-    description: ""
+    description: "This rule is applied on a per-query_key basis. This field must be present in all of the events that are checked"
 
   elastalert.rules.change.filter.operator.value:
-    description: ""
+    description: "or / and operator for the filter"
   elastalert.rules.change.filter.operator.terms:
-    description: ""
+    description: "The term type allows for exact field matches"
   elastalert.rules.change.filter.operator.query_string:
-    description: ""
+    description: "The query_string type follows the Lucene query format and can be used for partial or full matches to multiple fields"
   elastalert.rules.change.filter.operator.range:
-    description: ""
+    description: "For ranges on fields"
     example: |
       range.field:
       range.from:
       range.to:
 
-  elastalert.rules.spike.name:
-    description: ""
-  elastalert.rules.spike.alert:
-    description: ""
-  elastalert.rules.spike.index:
-    description: ""
-  elastalert.rules.spike.timeframe.hours:
-    description: ""
-  elastalert.rules.spike.email:
-    description: ""
-  elastalert.rules.spike.threshold_cur:
-    description: ""
-  elastalert.rules.spike.spike_height:
-    description: ""
-  elastalert.rules.spike.spike_type:
-    description: ""
+  elastalert.rules.flatline.name:
+    description: "The name of the rule. This must be unique across all rules"
+  elastalert.rules.flatline.alert:
+    description: "The Alerter type to use"
+  elastalert.rules.flatline.index:
+    description: "The name of the index that will be searched. Wildcards can be used here"
+  elastalert.rules.flatline.email:
+    description: "List of addresses to sent the alert to"
+  elastalert.rules.flatline.timeframe.hours:
+    description: "The time period that must contain less than threshold events"
+  elastalert.rules.flatline.threshold:
+    description: "The minimum number of events for an alert not to be triggered"
 
-  elastalert.rules.spike.filter.operator.value:
-    description: ""
-  elastalert.rules.spike.filter.operator.terms:
-    description: ""
-  elastalert.rules.spike.filter.operator.query_string:
-    description: ""
-  elastalert.rules.spike.filter.operator.range:
-    description: ""
+  elastalert.rules.flatline.filter.operator.value:
+    description: "or / and operator for the filter"
+  elastalert.rules.flatline.filter.operator.terms:
+    description: "The term type allows for exact field matches"
+  elastalert.rules.flatline.filter.operator.query_string:
+    description: "The query_string type follows the Lucene query format and can be used for partial or full matches to multiple fields"
+  elastalert.rules.flatline.filter.operator.range:
+    description: "For ranges on fields"
+    example: |
+      range.field:
+      range.from:
+      range.to:
+
+  elastalert.rules.frequency.name:
+    description: "The name of the rule. This must be unique across all rules"
+  elastalert.rules.frequency.alert:
+    description: "The Alerter type to use"
+  elastalert.rules.frequency.index:
+    description: "The name of the index that will be searched. Wildcards can be used here"
+  elastalert.rules.frequency.email:
+    description: "List of addresses to sent the alert to"
+  elastalert.rules.frequency.num_events:
+    description: "The number of events which will trigger an alert"
+  elastalert.rules.frequency.timeframe.hours:
+    description: "The time that num_events must occur within"
+
+  elastalert.rules.frequency.filter.operator.value:
+    description: "or / and operator for the filter"
+  elastalert.rules.frequency.filter.operator.terms:
+    description: "The term type allows for exact field matches"
+  elastalert.rules.frequency.filter.operator.query_string:
+    description: "The query_string type follows the Lucene query format and can be used for partial or full matches to multiple fields"
+  elastalert.rules.frequency.filter.operator.range:
+    description: "For ranges on fields"
     example: |
       range.field:
       range.from:
       range.to:
 
   elastalert.rules.new_term.name:
-    description: ""
+    description: "The name of the rule. This must be unique across all rules"
   elastalert.rules.new_term.alert:
-    description: ""
+    description: "The Alerter type to use"
   elastalert.rules.new_term.index:
-    description: ""
-  elastalert.rules.new_term.terms_window_size.days:
-    description: ""
+    description: "The name of the index that will be searched. Wildcards can be used here"
   elastalert.rules.new_term.email:
-    description: ""
+    description: "List of addresses to sent the alert to"
+  elastalert.rules.new_term.terms_window_size.days:
+    description: "The amount of time used for the initial query to find existing terms. No term that has occurred within this time frame will trigger an alert"
   elastalert.rules.new_term.fields:
-    description: ""
+    description: "A list of fields to monitor for new terms"
 
   elastalert.rules.new_term.filter.operator.value:
-    description: ""
+    description: "or / and operator for the filter"
   elastalert.rules.new_term.filter.operator.terms:
-    description: ""
+    description: "The term type allows for exact field matches"
   elastalert.rules.new_term.filter.operator.query_string:
-    description: ""
+    description: "The query_string type follows the Lucene query format and can be used for partial or full matches to multiple fields"
   elastalert.rules.new_term.filter.operator.range:
-    description: ""
+    description: "For ranges on fields"
+    example: |
+      range.field:
+      range.from:
+      range.to:
+
+  elastalert.rules.spike.name:
+    description: "The name of the rule. This must be unique across all rules"
+  elastalert.rules.spike.alert:
+    description: "The Alerter type to use"
+  elastalert.rules.spike.index:
+    description: "The name of the index that will be searched. Wildcards can be used here"
+  elastalert.rules.spike.email:
+    description: "List of addresses to sent the alert to"
+  elastalert.rules.spike.timeframe.hours:
+    description: "The rule will average out the rate of events over this time period"
+  elastalert.rules.spike.threshold_cur:
+    description: "The minimum number of events that must exist in the current window for an alert to trigger"
+  elastalert.rules.spike.spike_height:
+    description: "The ratio of number of events in the last timeframe to the previous timeframe that when hit will trigger an alert"
+  elastalert.rules.spike.spike_type:
+    description: "Either up, down or both. Up meaning the rule will only match when the number of events is spike_height times higher. Down meaning the reference number is spike_height higher than the current number. Both will match either"
+
+  elastalert.rules.spike.filter.operator.value:
+    description: "or / and operator for the filter"
+  elastalert.rules.spike.filter.operator.terms:
+    description: "The term type allows for exact field matches"
+  elastalert.rules.spike.filter.operator.query_string:
+    description: "The query_string type follows the Lucene query format and can be used for partial or full matches to multiple fields"
+  elastalert.rules.spike.filter.operator.range:
+    description: "For ranges on fields"
+    example: |
+      range.field:
+      range.from:
+      range.to:
+
+  elastalert.rules.whitelist.name:
+    description: "The name of the rule. This must be unique across all rules"
+  elastalert.rules.whitelist.alert:
+    description: "The Alerter type to use"
+  elastalert.rules.whitelist.index:
+    description: "The name of the index that will be searched. Wildcards can be used here"
+  elastalert.rules.whitelist.email:
+    description: "List of addresses to sent the alert to"
+  elastalert.rules.whitelist.compare_key:
+    description: "The name of the field to use to compare to the whitelist"
+  elastalert.rules.whitelist.ignore_null:
+    description: "If true, events without a compare_key field will not match"
+  elastalert.rules.whitelist.values:
+    description: "A list of whitelisted values. The compare_key term must be in this list or else it will match"
+
+  elastalert.rules.whitelist.filter.operator.value:
+    description: "or / and operator for the filter"
+  elastalert.rules.whitelist.filter.operator.terms:
+    description: "The term type allows for exact field matches"
+  elastalert.rules.whitelist.filter.operator.query_string:
+    description: "The query_string type follows the Lucene query format and can be used for partial or full matches to multiple fields"
+  elastalert.rules.whitelist.filter.operator.range:
+    description: "For ranges on fields"
     example: |
       range.field:
       range.from:

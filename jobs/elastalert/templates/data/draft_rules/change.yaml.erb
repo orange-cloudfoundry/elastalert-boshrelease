@@ -1,4 +1,5 @@
 <% if_p("elastalert.rules.change.index") do |change| %>
+
 # Alert when some field changes between documents
 # This rule would alert on documents similar to the following:
 # {'username': 'bob', 'country_name': 'USA', '@timestamp': '2014-10-15T00:00:00'}
@@ -10,8 +11,7 @@
 name: <%= p("elastalert.rules.change.name") %>
 
 # (Required)
-# Type of alert.
-# the change rule will alert when a certain field changes in two documents within a timeframe
+# Type of alert
 type: change
 
 # (Required)
@@ -36,7 +36,7 @@ timeframe:
   hours: <%= p("elastalert.rules.change.timeframe.hours") %>
 
 # (Required)
-# A list of elasticsearch filters used for find events
+# List of elasticsearch filters used to find events
 # These filters are joined with AND and nested in a filtered query
 # For more info: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl.html
 filter:
@@ -52,12 +52,18 @@ filter:
         query: "<%= query_string %>" <% end %> <% end %>
 
 # (Required)
-# The alert is use when a match is found
+# The alert is used when a match is found
 alert: <% p("elastalert.rules.change.alert").each do |alert| %>
 - "<%= alert %>" <% end %>
 
-# (required, email specific)
-# a list of email addresses to send alerts to
+smtp_host: <%= p("elastalert.smtp_host") %>
+smtp_port: <%= p("elastalert.smtp_port") %>
+smtp_ssl: <%= p("elastalert.smtp_ssl") %>
+smtp_auth_file: /var/vcap/jobs/elastalert/config/auth.yml
+from_addr: <%= p("elastalert.from_addr") %>
+
+# (Required, email specific)
+# List of email addresses to send alerts to
 email: <% p('elastalert.rules.change.email').each do |email| %>
 - <%= email %> <% end %>
 

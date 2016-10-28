@@ -1,41 +1,34 @@
 <% if_p("elastalert.rules.cardinality.index") do |cardinality| %>
-# Alert when the rate of events exceeds a threshold
 
-# (Required)
-# Index to search, wildcard supported
-index: <%= p("elastalert.rules.cardinality.index") %>
-
-# (OptionaL) Connect with SSL to elasticsearch
-#use_ssl: True
-
-# (Optional) basic-auth username and password for elasticsearch
-#es_username: someusername
-#es_password: somepassword
+# This rule matches when the total number of unique values for a certain field within a time frame is higher or lower than a threshold
 
 # (Required)
 # Rule name, must be unique
 name: <%= p("elastalert.rules.cardinality.name") %>
 
 # (Required)
-# Type of alert.
-# the frequency rule type alerts when num_events events occur with timeframe time
+# Type of alert
 type: cardinality
 
+# (Required)
+# Index to search, wildcard supported
+index: <%= p("elastalert.rules.cardinality.index") %>
+
 # (Required, cardinality specific)
-# Count the number of unique values for this field
+# Which field to count the cardinality for
 cardinality_field: <%= p("elastalert.rules.cardinality.cardinality_field") %>
 
-# (Required, frequency specific)
-# Alert when there less than min_cardinality unique fields
+# (Required, cardinality_field specific)
+# Alert when there is less than min_cardinality unique fields
 min_cardinality: <%= p("elastalert.rules.cardinality.min_cardinality") %>
 
-# (Required, frequency specific)
-# The cardinality is defined as the number of unique values for the most recent 4 hours
+# (Required)
+# The cardinality is defined as the number of unique values for the most recent number of hours
 timeframe:
   hours: <%= p("elastalert.rules.cardinality.timeframe.hours") %>
 
 # (Required)
-# A list of elasticsearch filters used for find events
+# List of elasticsearch filters used to find events
 # These filters are joined with AND and nested in a filtered query
 # For more info: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl.html
 filter:
@@ -51,12 +44,18 @@ filter:
         query: "<%= query_string %>" <% end %> <% end %>
 
 # (Required)
-# The alert is use when a match is found
+# The alert is used when a match is found
 alert: <% p("elastalert.rules.cardinality.alert").each do |alert| %>
 - "<%= alert %>" <% end %>
 
-# (required, email specific)
-# a list of email addresses to send alerts to
+smtp_host: <%= p("elastalert.smtp_host") %>
+smtp_port: <%= p("elastalert.smtp_port") %>
+smtp_ssl: <%= p("elastalert.smtp_ssl") %>
+smtp_auth_file: /var/vcap/jobs/elastalert/config/auth.yml
+from_addr: <%= p("elastalert.from_addr") %>
+
+# (Required, email specific)
+# List of email addresses to send alerts to
 email: <% p('elastalert.rules.cardinality.email').each do |email| %>
 - <%= email %> <% end %>
 
