@@ -9,6 +9,20 @@ export JOB_INDEX=<%= index %>
 # full job name, like redis/0 or webapp/3
 export JOB_FULL="$NAME/$JOB_INDEX"
 
+# Proxy configuration
+<% if_p('elastalert.env.http_proxy') do |http_proxy| %>
+export HTTP_PROXY="<%= http_proxy %>"
+export http_proxy="<%= http_proxy %>"
+<% end %>
+<% if_p('elastalert.env.https_proxy') do |https_proxy| %>
+export HTTPS_PROXY="<%= https_proxy %>"
+export https_proxy="<%= https_proxy %>"
+<% end %>
+<% if_p('elastalert.env.no_proxy') do |no_proxy| %>
+export NO_PROXY="<%= no_proxy %>"
+export no_proxy="<%= no_proxy %>"
+<% end %>
+
 export EA_BIN=/var/vcap/packages/elastalert/bin
 export PYTHONPATH=/var/vcap/packages/elastalert/lib/python2.7/site-packages
 

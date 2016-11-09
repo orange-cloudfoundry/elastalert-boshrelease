@@ -14,6 +14,7 @@ templates:
   data/draft_rules/flatline.yaml.erb: data/draft_rules/flatline.yaml
   data/draft_rules/new_term.yaml.erb: data/draft_rules/new_term.yaml
   data/draft_rules/cardinality.yaml.erb: data/draft_rules/cardinality.yaml
+  data/rules/.gitkeep: data/rules/.gitkeep
   data/properties.sh.erb: data/properties.sh
   config/auth.yml.erb: config/auth.yml
   config/config.yaml.erb: config/config.yaml
@@ -23,6 +24,13 @@ templates:
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
 
 properties:
+  elastalert.env.http_proxy:
+    description: "HTTP proxy"
+  elastalert.env.https_proxy:
+    description: "HTTPS proxy"
+  elastalert.env.no_proxy:
+    description: "List of comma-separated hosts to skip connecting to the proxy"
+
   elastalert.elasticsearch.host:
     description: "Elasticsearch hostname or IP address"
   elastalert.elasticsearch.port:
