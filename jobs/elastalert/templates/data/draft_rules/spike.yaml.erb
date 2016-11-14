@@ -56,8 +56,8 @@ alert: <% p("elastalert.rules.spike.alert").each do |alert| %>
 
 smtp_host: <%= p("elastalert.smtp_host") %>
 smtp_port: <%= p("elastalert.smtp_port") %>
-smtp_ssl: <%= p("elastalert.smtp_ssl") %>
-smtp_auth_file: /var/vcap/jobs/elastalert/config/auth.yml
+smtp_ssl: <%= p("elastalert.smtp_ssl") %> <% if_p("elastalert.smtp_user") do |smtp| %>
+smtp_auth_file: /var/vcap/jobs/elastalert/config/auth.yml <% end %>
 from_addr: <%= p("elastalert.from_addr") %>
 
 # (Required, email specific)

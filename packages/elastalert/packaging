@@ -8,11 +8,15 @@ CPUS=$(grep -c ^processor /proc/cpuinfo)
 # $BOSH_COMPILE_TARGET - where this package & spec'd source files are available
 # $BOSH_INSTALL_TARGET - where you copy/install files to be included in package
 export HOME=/var/vcap
+
 mkdir -p $BOSH_INSTALL_TARGET/lib/python2.7/dist-packages
 mkdir -p $BOSH_INSTALL_TARGET/lib/python2.7/site-packages
+
 export PYTHONPATH=$BOSH_INSTALL_TARGET/lib/python2.7/site-packages
+
 apt-get update
 apt-get install -y python-dev build-essential
+
 python elastalert/get-pip.py
 pip install 'requests[security]'
 pip install requests==2.5.1 --target $PYTHONPATH
@@ -40,7 +44,7 @@ pip install unittest2==0.8.0 --target $PYTHONPATH
 pip install urllib3==1.8.2 --target $PYTHONPATH
 pip install wsgiref==0.1.2 --target $PYTHONPATH
 
-wget https://bootstrap.pypa.io/ez_setup.py -O - | python
+python elastalert/ez_setup.py
 
 tar xfv elastalert/v0.1.1.tar.gz
 #cp -a elastalert-0.1.1/* $BOSH_INSTALL_TARGET
