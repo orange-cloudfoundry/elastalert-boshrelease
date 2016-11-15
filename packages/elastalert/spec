@@ -4,3 +4,4 @@ dependencies: []
 files:
 - elastalert/v0.1.1.tar.gz
 - elastalert/get-pip.py
+- elastalert/ez_setup.py
