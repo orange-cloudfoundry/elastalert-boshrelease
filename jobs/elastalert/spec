@@ -116,6 +116,8 @@ properties:
     description: "Which field to count the cardinality for"
   elastalert.rules.cardinality.min_cardinality:
     description: "If the cardinality of the data is lower than this number, an alert will be triggered"
+  elastalert.rules.cardinality.max_cardinality:
+    description: "If the cardinality of the data is higher than this number, an alert will be triggered"
 
   elastalert.rules.cardinality.filter.operator.value:
     description: "or / and operator for the filter"

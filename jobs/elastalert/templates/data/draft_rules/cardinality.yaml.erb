@@ -16,14 +16,18 @@ index: <%= p("elastalert.rules.cardinality.index") %>
 
 # (Required, cardinality specific)
 # Which field to count the cardinality for
-cardinality_field: <%= p("elastalert.rules.cardinality.cardinality_field") %>
+cardinality_field: "<%= p("elastalert.rules.cardinality.cardinality_field") %>"
 
 # (Required, cardinality_field specific)
-# Alert when there is less than min_cardinality unique fields
-min_cardinality: <%= p("elastalert.rules.cardinality.min_cardinality") %>
+# Alert when there is less than min_cardinality unique fields <% if_p("elastalert.rules.cardinality.min_cardinality") do |min_cardinality| %>
+min_cardinality: <%= p("elastalert.rules.cardinality.min_cardinality") %> <% end %>
+
+# (Required, cardinality_field specific)
+# Alert when there is more than max_cardinality unique fields
+max_cardinality: <%= p("elastalert.rules.cardinality.max_cardinality") %>
 
 # (Required)
-# The cardinality is defined as the number of unique values for the most recent number of hours
+# The cardinality is defined as the number of unique values for the most recent number of hours. The timeframe must have elapsed since the first event before any alerts will be sent. When a match occurs, the timeframe will be reset and must elapse again before additional alerts.
 timeframe:
   hours: <%= p("elastalert.rules.cardinality.timeframe.hours") %>
 

@@ -16,7 +16,7 @@ type: new_term
 index: <%= p("elastalert.rules.new_term.index") %>
 
 # (Required, new_term specific)
-# Monitor the field ip_address
+# Monitor the field
 fields: <% p('elastalert.rules.new_term.fields').each do |field| %>
 - "<%= field %>" <% end %>
 
