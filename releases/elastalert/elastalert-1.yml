@@ -1,0 +1,20 @@
+---
+packages:
+- name: elastalert
+  version: b9e251ca0be7418b472cc05a711a83b24825c86b
+  fingerprint: b9e251ca0be7418b472cc05a711a83b24825c86b
+  sha1: ec8b513491e4ca3401d2478616a0ecd519dddc1a
+  dependencies: []
+jobs:
+- name: elastalert
+  version: ab7f799f74d7e02fe5b087c5fb8d941a09e60b6f
+  fingerprint: ab7f799f74d7e02fe5b087c5fb8d941a09e60b6f
+  sha1: 934e559d41df88563c3360aa2eaed2c9a5f0083a
+license:
+  version: ef3f2b623430317e1320142b1e717cda9009f9a5
+  fingerprint: ef3f2b623430317e1320142b1e717cda9009f9a5
+  sha1: 36e2608dbd8f45d5401ae2032794bcf00cca905c
+commit_hash: 8b34b612
+uncommitted_changes: true
+name: elastalert
+version: '1'
