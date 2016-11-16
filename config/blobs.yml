@@ -1,1 +1,13 @@
---- {}
+---
+elastalert/ez_setup.py:
+  object_id: cc63faa9-d4ba-4f5c-b934-bd8f3db6f39b
+  sha: 6f4ad84d852b9eb3132035cfd88dbd212714a48c
+  size: 12402
+elastalert/get-pip.py:
+  object_id: 6e8a92fa-9bf2-45d8-a77a-3af47deeba32
+  sha: 20da892e83c4f3ae8b523c8a3f8f4e29e935aef7
+  size: 1524722
+elastalert/v0.1.1.tar.gz:
+  object_id: 3af7c5e1-7b43-40ee-96e2-72aca87e6c1e
+  sha: 507fa69b9c4c1d8319159a81b88714711adf3a4a
+  size: 122543
