@@ -9,22 +9,30 @@ CPUS=$(grep -c ^processor /proc/cpuinfo)
 # $BOSH_INSTALL_TARGET - where you copy/install files to be included in package
 export HOME=/var/vcap
 
+# create folders
 mkdir -p $BOSH_INSTALL_TARGET/lib/python2.7/dist-packages
 mkdir -p $BOSH_INSTALL_TARGET/lib/python2.7/site-packages
 
+# python packages
 export PYTHONPATH=$BOSH_INSTALL_TARGET/lib/python2.7/site-packages
 
+# ubuntu update and install
 apt-get update
 apt-get install -y python-dev build-essential
 
+# install pip
 python elastalert/get-pip.py
+
+# install setuptools
 python elastalert/ez_setup.py
 
+# untar elastalert
 tar xfv elastalert/v0.1.1.tar.gz
 #cp -a elastalert-0.1.1/* $BOSH_INSTALL_TARGET
 #cd $BOSH_INSTALL_TARGET
 cd elastalert-0.1.1
 
+# install elastalert
 python -v setup.py install --prefix=$BOSH_INSTALL_TARGET
 pip install -r requirements.txt --target $PYTHONPATH
 

@@ -6,10 +6,11 @@
 # e.g. JOB_NAME=redis, JOB_INDEX=0
 export NAME='<%= name %>'
 export JOB_INDEX=<%= index %>
+
 # full job name, like redis/0 or webapp/3
 export JOB_FULL="$NAME/$JOB_INDEX"
 
-# Proxy configuration
+# proxy configuration
 <% if_p('elastalert.env.http_proxy') do |http_proxy| %>
 export HTTP_PROXY="<%= http_proxy %>"
 export http_proxy="<%= http_proxy %>"
@@ -23,12 +24,17 @@ export NO_PROXY="<%= no_proxy %>"
 export no_proxy="<%= no_proxy %>"
 <% end %>
 
+# elastalert executables
 export EA_BIN=/var/vcap/packages/elastalert/bin
+
+# elastalert python packages
 export PYTHONPATH=/var/vcap/packages/elastalert/lib/python2.7/site-packages
 
+# elasticsearch hostname / IP and port number
 export ES_HOST='<%= p("elastalert.elasticsearch.host") %>'
 export ES_PORT='<%= p("elastalert.elasticsearch.port") %>'
 
+# which rules to apply
 <% if_p("elastalert.rules.any.index") do |any| %>cp /var/vcap/jobs/elastalert/data/draft_rules/any.yaml /var/vcap/jobs/elastalert/data/rules/ <% end %>
 <% if_p("elastalert.rules.change.index") do |change| %>cp /var/vcap/jobs/elastalert/data/draft_rules/change.yaml /var/vcap/jobs/elastalert/data/rules/ <% end %>
 <% if_p("elastalert.rules.frequency.index") do |frequency| %>cp /var/vcap/jobs/elastalert/data/draft_rules/frequency.yaml /var/vcap/jobs/elastalert/data/rules/ <% end %>
@@ -39,5 +45,5 @@ export ES_PORT='<%= p("elastalert.elasticsearch.port") %>'
 <% if_p("elastalert.rules.blacklist.index") do |blacklist| %>cp /var/vcap/jobs/elastalert/data/draft_rules/blacklist.yaml /var/vcap/jobs/elastalert/data/rules/ <% end %>
 <% if_p("elastalert.rules.whitelist.index") do |whitelist| %>cp /var/vcap/jobs/elastalert/data/draft_rules/whitelist.yaml /var/vcap/jobs/elastalert/data/rules/ <% end %>
 
-
+# create elastalert index in elasticsearch
 $EA_BIN/elastalert-create-index --host $ES_HOST --port $ES_PORT --index elastalert_status --no-auth --no-ssl --url-prefix "" --old-index None
