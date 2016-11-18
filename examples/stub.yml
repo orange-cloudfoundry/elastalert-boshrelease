@@ -1,0 +1,56 @@
+name: elastalert
+director_uuid: 59309c8d-6b1b-402e-8dff-8a07ac16578a
+
+networks:
+- name: default
+  subnets:
+  - cloud_properties:
+      net_id: 52faffa8-0682-4ee2-9253-16e960c93aa6
+    dns:
+    - 185.23.94.244
+    - 185.23.94.245
+    gateway: 192.168.170.1
+    range: 192.168.170.0/23
+    reserved:
+    - 192.168.170.2 - 192.168.171.24
+    - 192.168.171.30 - 192.168.171.254
+    static:
+    - 192.168.171.25 - 192.168.171.26
+  type: manual
+
+properties:
+  elastalert:
+    elasticsearch:
+      host: 192.168.171.25
+      port: 9200
+    run_every:
+      minutes: 60
+    buffer_time:
+      minutes: 15
+    alert_time_limit:
+      days: 2
+    smtp_host: smtp.sendgrid.net
+    smtp_port: 465
+    smtp_ssl: true
+    smtp_user: test
+    smtp_password: test
+    from_addr: elastalert@test.fr
+    rules:
+      frequency:
+        name: 'Frequency rule - api_z1/api_z2 ERROR/FATAL'
+        alert:
+        - 'email'
+        index: logstash-*
+        num_events: 1
+        timeframe:
+          hours: 1
+        filter:
+          operator:
+            value: 'or'
+            query_string:
+            - '@source.job:api_z1 AND @level:ERROR'
+            - '@source.job:api_z1 AND @level:FATAL'
+            - '@source.job:api_z2 AND @level:ERROR'
+            - '@source.job:api_z2 AND @level:FATAL'
+        email:
+        - test@test.com

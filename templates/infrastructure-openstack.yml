@@ -1,0 +1,30 @@
+meta:
+  stemcell: (( merge || .meta.default_stemcell ))
+  
+  default_stemcell:
+    name: bosh-openstack-kvm-ubuntu-trusty-go_agent
+    version: latest
+
+  resource_pools:
+    small:
+      cloud_properties:
+        instance_type: s1.cw.small-1
+
+compilation:
+  cloud_properties: (( merge || meta.resource_pools.small.cloud_properties ))
+  network: default
+  reuse_compilation_vms: true
+  workers: 1
+
+resource_pools:
+- name: small_z1
+  cloud_properties: (( merge || meta.resource_pools.small.cloud_properties ))
+  network: default
+  stemcell: (( merge || meta.stemcell ))
+  
+update:
+  canaries: 0
+  canary_watch_time: 30000-300000
+  update_watch_time:  30000-300000
+  max_in_flight: 3
+  serial: false
