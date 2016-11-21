@@ -1,4 +1,14 @@
-# BOSH Release for elastalert
+# BOSH Release for Elastalert
+
+This is a BOSH release for [elastalert] (https://github.com/Yelp/elastalert), the framework for alerting on data and logs in Elasticsearch.
+
+## Prerequisite
+
+The release has been tested with
+- [Logsearch] (https://github.com/cloudfoundry-community/logsearch-boshrelease.git) v203.0.0 (Kibana v4.4)
+- [Elastalert] (https://github.com/cloudfoundry-community/docker-boshrelease)  v0.1.1
+- [Spiff] (https://github.com/cloudfoundry-incubator/spiff)
+- Internet access / Without Internet access with [precompiled release] (https://github.com/orange-cloudfoundry/elastalert-boshrelease/tree/master/precompiled_releases)
 
 ## Usage
 
@@ -6,71 +16,33 @@ To use this bosh release, first upload it to your bosh:
 
 ```
 bosh target BOSH_HOST
-git clone https://github.com/cloudfoundry-community/elastalert-boshrelease.git
+git clone https://github.com/orange-cloudfoundry/elastalert-boshrelease.git
 cd elastalert-boshrelease
-bosh upload release releases/elastalert-1.yml
+bosh upload release releases/elastalert/elastalert-{latest}.yml
 ```
 
-For [bosh-lite](https://github.com/cloudfoundry/bosh-lite), you can quickly create a deployment manifest & deploy a cluster:
+## Deployment Manifests and Deploy
+
+To create your stub manifest you can use our openstack example under examples/stub.yml.
+
+For Openstack you can quickly create a deployment manifest & deploy:
 
 ```
-templates/make_manifest warden
+./scripts/generate_deployment_manifest openstack FULL_PATH_TO_YOUR_STUB_MANIFEST > FULL_PATH_TO_FINAL_MANIFEST
+bosh deployment FULL_PATH_TO_FINAL_MANIFEST
 bosh -n deploy
 ```
 
-For AWS EC2, create a single VM:
+## Development
 
-```
-templates/make_manifest aws-ec2
-bosh -n deploy
-```
+Inspired by the project [elastalert] (https://github.com/Yelp/elastalert) we created a BOSH release to alert by email on rules as follows:
+- any
+- change
+- frequency
+- spike
+- flatline
+- new term
+- cardinality
+More details could be found [here] (https://github.com/orange-cloudfoundry/elastalert-boshrelease/tree/master/jobs/elastalert).
 
-### Override security groups
-
-For AWS & Openstack, the default deployment assumes there is a `default` security group. If you wish to use a different security group(s) then you can pass in additional configuration when running `make_manifest` above.
-
-Create a file `my-networking.yml`:
-
-``` yaml
----
-networks:
-  - name: elastalert1
-    type: dynamic
-    cloud_properties:
-      security_groups:
-        - elastalert
-```
-
-Where `- elastalert` means you wish to use an existing security group called `elastalert`.
-
-You now suffix this file path to the `make_manifest` command:
-
-```
-templates/make_manifest openstack-nova my-networking.yml
-bosh -n deploy
-```
-
-### Development
-
-As a developer of this release, create new releases and upload them:
-
-```
-bosh create release --force && bosh -n upload release
-```
-
-### Final releases
-
-To share final releases:
-
-```
-bosh create release --final
-```
-
-By default the version number will be bumped to the next major number. You can specify alternate versions:
-
-
-```
-bosh create release --final --version 2.1
-```
-
-After the first release you need to contact [Dmitriy Kalinin](mailto://dkalinin@pivotal.io) to request your project is added to https://bosh.io/releases (as mentioned in README above).
+To compile this release an Internet access is required. If not, a http(s)_proxy config could be used, or there is a precompiled BOSH release available.
