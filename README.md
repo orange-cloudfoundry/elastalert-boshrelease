@@ -8,7 +8,7 @@ The release has been tested with
 - [Logsearch] (https://github.com/cloudfoundry-community/logsearch-boshrelease.git) v203.0.0 (Kibana v4.4)
 - [Elastalert] (https://github.com/cloudfoundry-community/docker-boshrelease)  v0.1.1
 - [Spiff] (https://github.com/cloudfoundry-incubator/spiff)
-- Internet access / Without Internet access with [precompiled release] (https://github.com/orange-cloudfoundry/elastalert-boshrelease/tree/master/precompiled_releases)
+- Internet access / without Internet access with [precompiled release] (https://github.com/orange-cloudfoundry/elastalert-boshrelease/tree/master/precompiled_releases)
 
 ## Usage
 
@@ -43,6 +43,7 @@ Inspired by the project [elastalert] (https://github.com/Yelp/elastalert) we cre
 - flatline
 - new term
 - cardinality
+
 More details could be found [here] (https://github.com/orange-cloudfoundry/elastalert-boshrelease/tree/master/jobs/elastalert).
 
 To compile this release an Internet access is required. If not, a http(s)_proxy config could be used, or there is a precompiled BOSH release available.
